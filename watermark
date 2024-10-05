@@ -1,8 +1,6 @@
 local executed = false
 local noKey = false
 
-local noKey = false
-
 if not noKey then
     local KeyGuardLibrary = loadstring(game:HttpGet("https://cdn.keyguardian.org/library/v1.0.0.lua"))()
     local trueData = "bc0d08f0a57e4ac292329c7d98f7b8ca"
