@@ -1,1 +1,171 @@
-print("nigga")
+local executed = false
+local noKey = false
+
+if not noKey then
+    local KeyGuardLibrary = loadstring(game:HttpGet("https://cdn.keyguardian.org/library/v1.0.0.lua"))()
+    local trueData = "bc0d08f0a57e4ac292329c7d98f7b8ca"
+    local falseData = "7ec57da2e93443dbaa3e6fbedadd2114"
+
+    KeyGuardLibrary.Set({
+        publicToken = "bf633b80b90e4c9c986a02616cb78379",
+        privateToken = "4cc8c4e8cecf45a9bc18b2d9119eed79",
+        trueData = trueData,
+        falseData = falseData,
+    })
+
+    local function loadKey()
+        local success, key = pcall(function()
+            return readfile("Lynx-Key.txt")
+        end)
+        return success and key or nil
+    end
+
+    local storedKey = loadKey()
+    if storedKey and KeyGuardLibrary.validateDefaultKey(storedKey) == trueData then
+        print("Stored key is valid")
+        return
+    end
+
+    local player = game.Players.LocalPlayer
+    local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+    local frame = Instance.new("Frame", screenGui)
+    local titleLabel = Instance.new("TextLabel", frame)
+    local inputBox = Instance.new("TextBox", frame)
+    local checkButton = Instance.new("TextButton", frame)
+    local getKeyButton = Instance.new("TextButton", frame)
+    local notificationLabel = Instance.new("TextLabel", frame)
+
+    frame.Size = UDim2.new(0, 600, 0, 300)
+    frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    frame.BackgroundTransparency = 0.2
+    frame.AnchorPoint = Vector2.new(0.5, 0.5)
+
+    local UICorner = Instance.new("UICorner", frame)
+    UICorner.CornerRadius = UDim.new(0, 15)
+
+    titleLabel.Size = UDim2.new(1, 0, 0, 50)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Text = "Lynx Key-Validation"
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.TextScaled = true
+    titleLabel.TextStrokeTransparency = 0.3
+    titleLabel.Font = Enum.Font.GothamBold
+
+    inputBox.Size = UDim2.new(0, 550, 0, 50)
+    inputBox.Position = UDim2.new(0, 25, 0, 60)
+    inputBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    inputBox.PlaceholderText = "Enter-Key"
+    inputBox.BorderSizePixel = 0
+    inputBox.TextScaled = true
+    inputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+    inputBox.FocusLost:Connect(function(enterPressed)
+        if enterPressed and inputBox.Text == "" then
+            inputBox.PlaceholderText = "Awaiting Confirmation"
+        end
+    end)
+
+    local inputUICorner = Instance.new("UICorner", inputBox)
+    inputUICorner.CornerRadius = UDim.new(0, 10)
+
+    checkButton.Size = UDim2.new(0, 200, 0, 50)
+    checkButton.Position = UDim2.new(0.5, -210, 0, 120)
+    checkButton.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+    checkButton.Text = "Check Key"
+    checkButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    checkButton.TextScaled = true
+    checkButton.Font = Enum.Font.GothamBold
+
+    local checkButtonUICorner = Instance.new("UICorner", checkButton)
+    checkButtonUICorner.CornerRadius = UDim.new(0, 10)
+
+    getKeyButton.Size = UDim2.new(0, 200, 0, 50)
+    getKeyButton.Position = UDim2.new(0.5, 10, 0, 120)
+    getKeyButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+    getKeyButton.Text = "Get Key"
+    getKeyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    getKeyButton.TextScaled = true
+    getKeyButton.Font = Enum.Font.GothamBold
+
+    local getKeyButtonUICorner = Instance.new("UICorner", getKeyButton)
+    getKeyButtonUICorner.CornerRadius = UDim.new(0, 10)
+
+    notificationLabel.Size = UDim2.new(1, 0, 0, 50)
+    notificationLabel.Position = UDim2.new(0, 0, 0, 240)
+    notificationLabel.BackgroundTransparency = 1
+    notificationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    notificationLabel.TextScaled = true
+    notificationLabel.Text = "Awaiting Confirmation"
+
+    checkButton.MouseButton1Click:Connect(function()
+        local key = inputBox.Text
+        local response = KeyGuardLibrary.validateDefaultKey(key)
+
+        if response == trueData then
+            notificationLabel.Text = "Key is valid"
+            wait(1)
+            writefile("Lynx-Key.txt", key)
+            screenGui.Enabled = false
+
+            if not executed then
+                local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+                local Frame = Instance.new("Frame", ScreenGui)
+                local TextLabel = Instance.new("TextLabel", Frame)
+
+                Frame.Size = UDim2.new(0, 400, 0, 60)
+                Frame.Position = UDim2.new(0.5, -200, 0, 10)
+                Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                Frame.BackgroundTransparency = 0.5
+                Frame.BorderSizePixel = 0
+
+                local UICorner = Instance.new("UICorner", Frame)
+                UICorner.CornerRadius = UDim.new(0, 12)
+
+                TextLabel.Size = UDim2.new(1, 0, 1, 0)
+                TextLabel.Position = UDim2.new(0, 0, 0, 0)
+                TextLabel.BackgroundTransparency = 1
+                TextLabel.Text = "Lynxian - v1.3.P"
+                TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                TextLabel.TextScaled = true
+                TextLabel.Font = Enum.Font.SourceSansBold
+
+                local function typeText(newText)
+                    TextLabel.Text = ""
+                    for i = 1, #newText do
+                        TextLabel.Text = TextLabel.Text .. newText:sub(i, i)
+                        wait(0.08)
+                    end
+                end
+
+                local function fadeOut()
+                    for i = 0, 10 do
+                        TextLabel.TextTransparency = 0 + (i * 0.1)
+                        Frame.BackgroundTransparency = 0.5 + (i * 0.05)
+                        wait(0.05)
+                    end
+                end
+
+                wait(2)
+                typeText("Lynx - Injected")
+
+                wait(3)
+                fadeOut()
+
+                executed = true
+            end
+        else
+            notificationLabel.Text = "Key is invalid"
+        end
+    end)
+
+    getKeyButton.MouseButton1Click:Connect(function()
+        setclipboard(KeyGuardLibrary.getLink())
+        notificationLabel.Text = "Key link copied to clipboard"
+    end)
+else
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Lynx Key-System",
+        Text = "The Key-System is currently disabled"
+    })
+end
