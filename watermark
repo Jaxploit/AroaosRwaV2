@@ -168,4 +168,49 @@ else
         Title = "Lynx Key-System",
         Text = "The Key-System is currently disabled"
     })
+
+    if not executed then
+        local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+        local Frame = Instance.new("Frame", ScreenGui)
+        local TextLabel = Instance.new("TextLabel", Frame)
+
+        Frame.Size = UDim2.new(0, 400, 0, 60)
+        Frame.Position = UDim2.new(0.5, -200, 0, 10)
+        Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        Frame.BackgroundTransparency = 0.5
+        Frame.BorderSizePixel = 0
+
+        local UICorner = Instance.new("UICorner", Frame)
+        UICorner.CornerRadius = UDim.new(0, 12)
+
+        TextLabel.Size = UDim2.new(1, 0, 1, 0)
+        TextLabel.Position = UDim2.new(0, 0, 0, 0)
+        TextLabel.BackgroundTransparency = 1
+        TextLabel.Text = "Lynxian - v1.3.P"
+        TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextLabel.TextScaled = true
+        TextLabel.Font = Enum.Font.SourceSansBold
+
+        local function typeText(newText)
+            TextLabel.Text = ""
+            for i = 1, #newText do
+                TextLabel.Text = TextLabel.Text .. newText:sub(i, i)
+                wait(0.08)
+            end
+        end
+
+        local function fadeOut()
+            for i = 0, 10 do
+                TextLabel.TextTransparency = 0 + (i * 0.1)
+                Frame.BackgroundTransparency = 0.5 + (i * 0.05)
+                wait(0.05)
+            end
+        end
+
+        wait(2)
+        typeText("Lynx - System Disabled")
+
+        wait(3)
+        fadeOut()
+    end
 end
