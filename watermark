@@ -195,6 +195,4 @@ else
         Text = "The Key-System is currently disabled"
     })
 end
-
-    executed = true
 end
